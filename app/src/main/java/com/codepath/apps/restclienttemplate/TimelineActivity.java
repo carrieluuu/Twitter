@@ -63,9 +63,9 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.compose) {
-            // Compose icon has been selected
-            Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
-            // Navigate to the compose activity
+            // Compose icon has been selected and navigate to the compose activity
+            Intent intent = new Intent(this, ComposeActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -97,10 +97,10 @@ public class TimelineActivity extends AppCompatActivity {
 
     void onLogoutButton(View view) {
 
-        // forget who's logged in
+        // Forget who's logged in
         TwitterApp.getRestClient(this).clearAccessToken();
 
-        // navigate backwards to Login screen
+        // Navigate backwards to Login screen
         finish();
         Intent i = new Intent(this, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
