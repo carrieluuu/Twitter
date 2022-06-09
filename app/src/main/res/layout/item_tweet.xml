@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:background="@drawable/dividers"
+    android:padding="0dp">
+    <!-- android:layout_margin="5dp"> -->
 
     <TextView
         android:id="@+id/tvRelativeTimeAgo"
@@ -14,7 +16,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="0dp"
-        android:textColor="#757575"
+        android:textColor="@color/light_gray"
         tools:text="10m" />
 
     <ImageView
@@ -30,20 +32,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@id/ivProfileImage"
+        android:textColor="@color/light_gray"
         android:textStyle="bold"
         tools:text="Carrie" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/tvScreenName"
+        android:textColor="@color/light_gray"
+        tools:text="name" />
 
     <TextView
         android:id="@+id/tvBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvScreenName"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@id/ivProfileImage"
+        android:textColor="@color/light_gray"
         tools:text="This is my tweet!!!" />
 
     <ImageView
@@ -52,9 +67,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:visibility="visible"
         tools:srcCompat="@tools:sample/avatars" />
+
 </RelativeLayout>

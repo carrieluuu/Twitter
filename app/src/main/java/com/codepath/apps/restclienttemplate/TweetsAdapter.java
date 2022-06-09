@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import java.util.List;
@@ -69,6 +71,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivMedia;
         TextView tvBody;
         TextView tvScreenName;
+        TextView tvName;
         TextView tvRelativeTimeAgo;
 
         public ViewHolder(@NonNull View itemView) {
@@ -77,17 +80,30 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivMedia = itemView.findViewById(R.id.ivMedia);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
+            tvName = itemView.findViewById(R.id.tvName);
             tvRelativeTimeAgo = itemView.findViewById(R.id.tvRelativeTimeAgo);
 
         }
 
         public void bind(Tweet tweet) {
-            tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
-            Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
+            int radius = 100;
 
-            if (tweet.mediaUrl!=null) {
-                Glide.with(context).load(tweet.mediaUrl).into(ivMedia);
+            tvBody.setText(tweet.body);
+            tvName.setText(tweet.user.name);
+            tvScreenName.setText("@" + tweet.user.screenName);
+
+            Glide.with(context).load(tweet.user.profileImageUrl)
+                    .apply(new RequestOptions()
+                            .centerCrop()
+                            .transform(new RoundedCorners(radius)))
+                    .into(ivProfileImage);
+
+            if (tweet.mediaUrl != null) {
+                Glide.with(context).load(tweet.mediaUrl)
+                                .apply(new RequestOptions()
+                                        .centerCrop()
+                                        .transform(new RoundedCorners(radius)))
+                                        .into(ivMedia);
                 ivMedia.setVisibility(View.VISIBLE);
             } else {
                 ivMedia.setVisibility(View.GONE);
