@@ -18,6 +18,7 @@
             android:name=".ComposeActivity"
             android:exported="false" />
         <activity android:name=".TimelineActivity"></activity>
+        <activity android:name=".TweetDetailsActivity"></activity>
         <activity
             android:name=".LoginActivity"
             android:label="SimpleTweet"

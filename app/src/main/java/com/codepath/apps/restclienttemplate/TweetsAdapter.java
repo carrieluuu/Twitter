@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -126,6 +129,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             tvTimeStamp.setText(tweet.timeStamp);
 
+            // retweet and favorites feature
+
             TwitterClient twitterClient = new TwitterClient(context);
 
             tvFavoriteCount.setText(tweet.favoriteCount+"");
@@ -222,6 +227,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             });
 
 
+            // tweet details page
+            tvBody.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, TweetDetailsActivity.class);
+                    i.putExtra("tweet", Parcels.wrap(tweet));
+                    context.startActivity(i);
+                }
+            });
         }
     }
 }
