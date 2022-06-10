@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -75,6 +76,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvRelativeTimeAgo;
         TextView tvLikeCount;
         TextView tvRetweetCount;
+        ImageButton btnLike;
+        ImageButton btnRetweet;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +89,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvRelativeTimeAgo = itemView.findViewById(R.id.tvRelativeTimeAgo);
             tvLikeCount = itemView.findViewById(R.id.tvLikeCount);
             tvRetweetCount = itemView.findViewById(R.id.tvRetweetCount);
+            btnLike = itemView.findViewById(R.id.btnLike);
+            btnRetweet = itemView.findViewById(R.id.btnRetweet);
 
         }
 
