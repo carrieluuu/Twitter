@@ -47,9 +47,9 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-![App Demo](app/video-demo.gif)
+![App Demo](app/twitter-video-demo.gif)
 
-GIF created with [Ezgif](https://ezgif.com/video-to-gif).
+GIF created with [Adobe Express](https://express.adobe.com/).
 
 ## Notes
 
