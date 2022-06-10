@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import java.util.List;
 
+import okhttp3.Headers;
+
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
+
+    public static final String TAG = "TweetsAdapter";
 
     Context context;
     List<Tweet> tweets;
@@ -73,8 +79,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         TextView tvName;
-        TextView tvRelativeTimeAgo;
-        TextView tvLikeCount;
+        TextView tvTimeStamp;
+        TextView tvFavoriteCount;
         TextView tvRetweetCount;
         ImageButton btnLike;
         ImageButton btnRetweet;
@@ -86,8 +92,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvName = itemView.findViewById(R.id.tvName);
-            tvRelativeTimeAgo = itemView.findViewById(R.id.tvRelativeTimeAgo);
-            tvLikeCount = itemView.findViewById(R.id.tvLikeCount);
+            tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
+            tvFavoriteCount = itemView.findViewById(R.id.tvFavoriteCount);
             tvRetweetCount = itemView.findViewById(R.id.tvRetweetCount);
             btnLike = itemView.findViewById(R.id.btnLike);
             btnRetweet = itemView.findViewById(R.id.btnRetweet);
@@ -109,22 +115,113 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             if (tweet.mediaUrl != null) {
                 Glide.with(context).load(tweet.mediaUrl)
-                                .apply(new RequestOptions()
-                                        .centerCrop()
-                                        .transform(new RoundedCorners(radius)))
-                                        .into(ivMedia);
+                        .apply(new RequestOptions()
+                                .centerCrop()
+                                .transform(new RoundedCorners(radius)))
+                        .into(ivMedia);
                 ivMedia.setVisibility(View.VISIBLE);
             } else {
                 ivMedia.setVisibility(View.GONE);
             }
 
-            tvRelativeTimeAgo.setText(tweet.relativeTimeAgo);
-            tvLikeCount.setText(tweet.likeCount+"");
+            tvTimeStamp.setText(tweet.timeStamp);
+
+            TwitterClient twitterClient = new TwitterClient(context);
+
+            tvFavoriteCount.setText(tweet.favoriteCount+"");
             tvRetweetCount.setText(tweet.retweetCount+"");
+
+            if(tweet.favorited)
+                btnLike.setImageResource(R.drawable.ic_vector_heart);
+
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tweet.favorited = !tweet.favorited;
+
+                    if(tweet.favorited) {
+                        twitterClient.likeTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                tweet.favoriteCount++;
+                                tvFavoriteCount.setText(tweet.favoriteCount + "");
+                                btnLike.setImageResource(R.drawable.ic_vector_heart);
+                                Log.i(TAG, "Favorited tweet!");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+
+                            }
+                        });
+                    }
+                    else {
+
+                        twitterClient.unLikeTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                tweet.favoriteCount--;
+                                tvFavoriteCount.setText(tweet.favoriteCount + "");
+                                btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                                Log.i(TAG, "Unfavorited tweet!");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "Failure" + response + throwable);
+
+                            }
+                        });
+                    }
+
+                }
+            });
+            if(tweet.retweeted)
+                btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
+
+            btnRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tweet.retweeted = !tweet.retweeted;
+
+                    if(tweet.retweeted) {
+                        twitterClient.retweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                tweet.retweetCount++;
+                                tvRetweetCount.setText(tweet.retweetCount + "");
+                                btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                                Log.i(TAG, "Successful retweet!");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "Failure" + response + throwable);
+                            }
+                        });
+                    }
+                    else {
+
+                        twitterClient.unretweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                tweet.retweetCount--;
+                                tvRetweetCount.setText(tweet.retweetCount+"");
+                                btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                                Log.i(TAG, "Unretweeted tweet!");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "Failure" + response + throwable);
+                            }
+                        });
+                    }
+
+                }
+            });
+
+
         }
-
-
-
     }
-
 }

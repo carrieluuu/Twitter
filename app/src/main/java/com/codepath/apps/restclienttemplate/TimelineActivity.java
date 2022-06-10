@@ -116,6 +116,19 @@ public class TimelineActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_CODE);
             return true;
         }
+
+        if (item.getItemId() == R.id.btnLogout) {
+            // Forget who's logged in
+            TwitterApp.getRestClient(this).clearAccessToken();
+
+            // Navigate backwards to Login screen
+            finish();
+            Intent i = new Intent(this, LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+            startActivity(i);
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -162,16 +175,4 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    void onLogoutButton(View view) {
-
-        // Forget who's logged in
-        TwitterApp.getRestClient(this).clearAccessToken();
-
-        // Navigate backwards to Login screen
-        finish();
-        Intent i = new Intent(this, LoginActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
-        startActivity(i);
-    }
 }

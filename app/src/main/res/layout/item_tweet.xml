@@ -9,7 +9,7 @@
     <!-- android:layout_margin="5dp"> -->
 
     <TextView
-        android:id="@+id/tvRelativeTimeAgo"
+        android:id="@+id/tvTimeStamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/tvScreenName"
@@ -84,7 +84,6 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="15dp"
         android:background="#00000000"
-        android:text="btnLike"
         app:srcCompat="@drawable/ic_reply_arrow" />
 
     <ImageButton
@@ -97,9 +96,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="1dp"
         android:layout_toEndOf="@+id/btnReply"
-        android:clickable="true"
         android:background="#00000000"
-        android:text="Button"
         app:srcCompat="@drawable/ic_vector_retweet_stroke" />
 
     <ImageButton
@@ -111,7 +108,6 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="5dp"
         android:background="#00000000"
-        android:text="Button"
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
     <TextView
@@ -122,13 +118,12 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_toEndOf="@+id/btnRetweet"
-        android:clickable="true"
         android:paddingLeft="5dp"
         android:text="250"
         android:textColor="#FFFFFF" />
 
     <TextView
-        android:id="@+id/tvLikeCount"
+        android:id="@+id/tvFavoriteCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/btnLike"

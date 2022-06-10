@@ -27,9 +27,12 @@ public class Tweet {
     public String body;
     public String createdAt;
     public String mediaUrl;
-    public String relativeTimeAgo;
-    public int likeCount;
+    public String timeStamp;
+    public int favoriteCount;
     public int retweetCount;
+    public long id;
+    public boolean favorited;
+    public boolean retweeted;
 
 
     // empty constructor needed by the Parceler library
@@ -41,7 +44,10 @@ public class Tweet {
         tweet.createdAt=jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.retweetCount= jsonObject.getInt("retweet_count");
-        tweet.likeCount=jsonObject.getInt("favorite_count");
+        tweet.favoriteCount=jsonObject.getInt("favorite_count");
+        tweet.id = jsonObject.getLong("id");
+        tweet.favorited = jsonObject.getBoolean("favorited");
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
 
         if (jsonObject.getJSONObject("entities").has("media")) {
             JSONArray mediaArray = jsonObject.getJSONObject("entities").getJSONArray("media");
@@ -51,7 +57,7 @@ public class Tweet {
             }
         }
 
-        tweet.relativeTimeAgo = tweet.getRelativeTimeAgo(tweet.createdAt);
+        tweet.timeStamp = tweet.getTimeStamp(tweet.createdAt);
 
         return tweet;
     }
@@ -64,7 +70,7 @@ public class Tweet {
         return tweets;
     }
 
-    public String getRelativeTimeAgo(String rawJsonDate) {
+    public String getTimeStamp(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
         sf.setLenient(true);
@@ -90,7 +96,7 @@ public class Tweet {
                 return diff / DAY_MILLIS + " d";
             }
         } catch (ParseException e) {
-            Log.i(TAG, "getRelativeTimeAgo failed");
+            Log.i(TAG, "getTimeStamp failed");
             e.printStackTrace();
         }
 
