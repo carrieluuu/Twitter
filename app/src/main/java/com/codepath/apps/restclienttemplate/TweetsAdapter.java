@@ -73,6 +73,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView tvName;
         TextView tvRelativeTimeAgo;
+        TextView tvLikeCount;
+        TextView tvRetweetCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +84,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvName = itemView.findViewById(R.id.tvName);
             tvRelativeTimeAgo = itemView.findViewById(R.id.tvRelativeTimeAgo);
+            tvLikeCount = itemView.findViewById(R.id.tvLikeCount);
+            tvRetweetCount = itemView.findViewById(R.id.tvRetweetCount);
 
         }
 
@@ -110,7 +114,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
 
             tvRelativeTimeAgo.setText(tweet.relativeTimeAgo);
+            tvLikeCount.setText(tweet.likeCount+"");
+            tvRetweetCount.setText(tweet.retweetCount+"");
         }
+
+
 
     }
 

@@ -23,11 +23,13 @@ public class Tweet {
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
     private static final String TAG = Tweet.class.getSimpleName();
 
+    public User user;
     public String body;
     public String createdAt;
-    public User user;
     public String mediaUrl;
     public String relativeTimeAgo;
+    public int likeCount;
+    public int retweetCount;
 
 
     // empty constructor needed by the Parceler library
@@ -38,6 +40,8 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt=jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.retweetCount= jsonObject.getInt("retweet_count");
+        tweet.likeCount=jsonObject.getInt("favorite_count");
 
         if (jsonObject.getJSONObject("entities").has("media")) {
             JSONArray mediaArray = jsonObject.getJSONObject("entities").getJSONArray("media");

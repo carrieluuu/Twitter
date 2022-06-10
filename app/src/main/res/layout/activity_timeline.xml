@@ -28,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@id/swipeContainer"
         android:layout_alignParentBottom="true"
+        android:background="@color/twitter_blue"
         android:onClick="onLogoutButton"
-        android:text="Logout" />
+        android:text="Logout"
+        android:textColor="#FFFFFF" />
 </RelativeLayout>
